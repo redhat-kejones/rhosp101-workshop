@@ -1,0 +1,68 @@
+---
+- hosts: localhost
+  name: playbook to create initial setup for RHOSP 101 workshop
+  gather_facts: no
+  tasks:
+  - name: authenticate to the cloud and retrieve the service catalog
+    os_auth:
+      auth: "{{ os_auth }}"
+
+  - debug:
+      msg: "{{ service_catalog }}"
+
+  - debug:
+      msg: "{{ os_auth }}"
+
+  - name: create heat_stack_owner role
+    os_keystone_role:
+      auth: "{{ os_auth }}"
+      state: present
+      name: heat_stack_owner
+    environment:
+      OS_IDENTITY_API_VERSION: 3
+
+  - name: create student projects
+    os_project:
+      auth: "{{ os_auth }}"
+      state: present
+      name: "{{ item }}"
+      enabled: yes
+      interface: admin
+      domain_id: "{{ osp_domain }}"
+    environment:
+      OS_IDENTITY_API_VERSION: 3
+    loop: "{{ students }}"
+
+  - name: create student users
+    os_user:
+      auth: "{{ os_auth }}"
+      state: present
+      name: "{{ item }}"
+      password: "{{ student_pwd }}"
+      email: "{{ item }}@hattrick.lab"
+      domain: "{{ osp_domain }}"
+      default_project: "{{ item }}"
+      update_password: on_create
+    environment:
+      OS_IDENTITY_API_VERSION: 3
+    loop: "{{ students }}"
+
+  - name: grant students member role on their project
+    os_user_role:
+      auth: "{{ os_auth }}"
+      user: "{{ item }}"
+      role: _member_
+      project: "{{ item }}"
+    environment:
+      OS_IDENTITY_API_VERSION: 3
+    loop: "{{ students }}"
+
+  - name: grant students heat_stack_owner role on their project
+    os_user_role:
+      auth: "{{ os_auth }}"
+      user: "{{ item }}"
+      role: heat_stack_owner
+      project: "{{ item }}"
+    environment:
+      OS_IDENTITY_API_VERSION: 3
+    loop: "{{ students }}"

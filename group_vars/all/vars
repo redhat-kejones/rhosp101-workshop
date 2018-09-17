@@ -1,0 +1,47 @@
+osp_ip: 10.100.1.21 # OpenStack specific
+osp_url: http://{{ osp_ip }}:5000/v3
+osp_user: "{{ vault_osp_user }}"
+osp_pass: "{{ vault_osp_pwd }}"
+osp_project: operators
+osp_domain: default
+os_auth:
+  auth_url: "{{ osp_url }}"
+  username: "{{ osp_user }}"
+  password: "{{ osp_pass }}"
+  project_name: "{{ osp_project }}"
+  project_domain_name: "{{ osp_domain }}"
+  user_domain_name: "{{ osp_domain }}"
+
+student_pwd: redhat
+
+students:
+  - student1
+  - student2
+  - student3
+  - student4
+  - student5
+  - student6
+  - student7
+  - student8
+  - student9
+  - student10
+  - student11
+  - student12
+  - student13
+  - student14
+  - student15
+  - student16
+  - student17
+  - student18
+  - student19
+  - student20
+  - student21
+  - student22
+  - student23
+  - student24
+  - student25
+  - student26
+  - student27
+  - student28
+  - student29
+  - student30

@@ -1,0 +1,9 @@
+*.retry
+*.swp
+vault.yml
+vault
+bin
+include
+lib
+lib64
+pip-selfcheck.json

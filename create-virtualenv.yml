@@ -1,0 +1,25 @@
+---
+- hosts: localhost
+  name: playbook to create initial setup for RHOSP 101 workshop
+  gather_facts: no
+  vars_files:
+    - vars.yml
+  tasks:
+  - name: install python-virtualenv
+    become: yes
+    yum:
+      name: python-virtualenv
+      state: present
+
+  - name: create virtualenv in this repo
+    shell: virtualenv ./
+
+  - name: install openstacksdk in virtualenv
+    shell: |
+      source ./bin/activate
+      pip install openstacksdk
+
+  - name: install shade in virtualenv
+    shell: |
+      source ./bin/activate
+      pip install shade
