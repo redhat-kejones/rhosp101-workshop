@@ -1,1 +1,4 @@
 localhost ansible_python_interpreter=rhosp101-workshop/bin/python
+
+[bastion]
+192.168.1.77

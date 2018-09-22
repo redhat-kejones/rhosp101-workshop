@@ -66,3 +66,33 @@
     environment:
       OS_IDENTITY_API_VERSION: 3
     loop: "{{ students }}"
+
+- hosts: bastion
+  name: playbook to create initial setup on bastion host
+  gather_facts: no
+  tasks:
+  - name: create users on bastion host
+    user:
+      name: "{{ item }}"
+      state: present
+      password: "{{ vault_student_pwd_encrypted }}"
+      update_password: always
+    loop: "{{ students }}"
+
+  - name: copy studentrc file to bastion host
+    template:
+      src: templates/studentrc.j2
+      dest: "/home/{{ item }}/{{ item }}rc"
+      owner: "{{ item }}"
+      group: "{{ item }}"
+      mode: 0660
+    loop: "{{ students }}"
+
+  - name: copy over heat example file to bastion host
+    copy:
+      src: files/heat-example.yaml
+      dest: "/home/{{ item }}/heat-example.yaml"
+      owner: "{{ item }}"
+      group: "{{ item }}"
+      mode: 0664
+    loop: "{{ students }}"

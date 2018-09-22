@@ -2,8 +2,6 @@
 - hosts: localhost
   name: playbook to create initial setup for RHOSP 101 workshop
   gather_facts: no
-  vars_files:
-    - vars.yml
   tasks:
   - name: install python-virtualenv
     become: yes

@@ -1,0 +1,16 @@
+# Clear any old environment that may conflict.
+for key in $( set | awk '{FS="="}  /^OS_/ {print $1}' ); do unset $key ; done
+OS_PASSWORD={{ student_pwd }}
+export OS_PASSWORD
+OS_AUTH_URL={{ osp_url }}
+PYTHONWARNINGS="ignore:Certificate has no, ignore:A true SSLContext object is not available"
+export OS_AUTH_URL
+export PYTHONWARNINGS
+OS_USERNAME={{ item }}
+OS_TENANT_NAME={{ item }}
+OS_NO_CACHE=True
+OS_CLOUDNAME=overcloud
+export OS_USERNAME
+export OS_TENANT_NAME
+export OS_NO_CACHE
+export OS_CLOUDNAME
